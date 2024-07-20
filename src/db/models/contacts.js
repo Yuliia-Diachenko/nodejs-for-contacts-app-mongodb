@@ -24,10 +24,13 @@ const contactsSchema = new mongoose.Schema(
           required: true,
           default: 'personal',
         },
+
       },
       {
         timestamps: true,
+        versionKey: false,
       },
+
 );
 
 export const ContactsCollection = mongoose.model('contacts', contactsSchema);
