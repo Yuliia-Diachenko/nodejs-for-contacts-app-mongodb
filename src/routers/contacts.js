@@ -20,7 +20,7 @@ contactsRouter.use(authenticate);
 contactsRouter.get('/', checkRoles(ROLES.USER),  ctrlWrapper(getContactsController));
 contactsRouter.get('/:contactId', checkRoles(ROLES.USER), isValidId, ctrlWrapper(getContactByIdController));
 contactsRouter.delete('/:contactId', checkRoles(ROLES.USER), isValidId, ctrlWrapper(deleteContactController));
-contactsRouter.post('/register', checkRoles(ROLES.USER), validateBody(createContactSchema), ctrlWrapper(createContactsController),);
+contactsRouter.post('/', checkRoles(ROLES.USER), validateBody(createContactSchema), ctrlWrapper(createContactsController),);
 contactsRouter.put('/:contactId', checkRoles(ROLES.USER), isValidId, validateBody(createContactSchema), ctrlWrapper(upsertContactController),);
 contactsRouter.patch('/:contactId', checkRoles(ROLES.USER), isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController),);
 
