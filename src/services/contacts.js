@@ -49,7 +49,7 @@ export const getAllContacts = async ( {page = 1,
   };
 
 export const getContactById = async (contactId) => {
-  const contact = await ContactsCollection.findById(contactId);
+  const contact = await ContactsCollection.findOne(contactId);
   return contact;
 };
 

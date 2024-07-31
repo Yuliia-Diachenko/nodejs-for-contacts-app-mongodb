@@ -1,5 +1,3 @@
-
-
 const parseType = (contactType) => {
     const isString = typeof contactType === 'string';
     if (!isString) return;

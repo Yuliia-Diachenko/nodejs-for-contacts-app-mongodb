@@ -25,10 +25,12 @@ const contactsSchema = new mongoose.Schema(
           default: 'personal',
         },
 
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'users' },
+
       },
-      {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-      },
+
       {
         timestamps: true,
         versionKey: false,
