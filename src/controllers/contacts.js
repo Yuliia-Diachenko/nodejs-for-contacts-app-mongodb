@@ -15,7 +15,7 @@ export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const filter = parseFilterParams(req.query);
-  const contacts = await getAllContacts({page, perPage, sortBy, sortOrder, filter,});
+  const contacts = await getAllContacts({page, perPage, sortBy, sortOrder, filter, userId: req.user._id });
   res.status(200).json({
       status: 200,
       message: "Successfully found contacts!",
@@ -26,7 +26,7 @@ export const getContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  const contact = await getContactById(contactId, req.user._id);
   // Відповідь, якщо контакт не знайдено
   if (!contact) {
   throw createHttpError(404, 'Contact not found');
@@ -41,11 +41,12 @@ export const getContactByIdController = async (req, res, next) => {
 
 export const createContactsController = async (req, res) => {
   const contact = await createContact({
-    "name": req.body.name,
-    "email": req.body.email,
-    "phoneNumber": req.body.phoneNumber,
-    "isFavourite": req.body.isFavourite,
-    "contactType": req.body.contactType,
+    name: req.body.name,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+    isFavourite: req.body.isFavourite,
+    contactType: req.body.contactType,
+    userId: req.user._id,
     });
 
   res.status(201).json({

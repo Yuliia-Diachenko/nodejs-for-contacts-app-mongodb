@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import express from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { getContactsController,
         getContactByIdController,
@@ -11,17 +12,18 @@ import { createContactSchema } from '../validation/contacts.js';
 import { updateContactSchema } from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { checkRoles } from '../middlewares/checkRoles.js';
-import { ROLES } from '../constants/index.js';
+// import { checkRoles } from '../middlewares/checkRoles.js';
+// import { ROLES } from '../constants/index.js';
 
-const contactsRouter = Router();
+const router = Router();
+const jsonParser = express.json();
 
-contactsRouter.use(authenticate);
-contactsRouter.get('/', checkRoles(ROLES.USER),  ctrlWrapper(getContactsController));
-contactsRouter.get('/:contactId', checkRoles(ROLES.USER), isValidId, ctrlWrapper(getContactByIdController));
-contactsRouter.delete('/:contactId', checkRoles(ROLES.USER), isValidId, ctrlWrapper(deleteContactController));
-contactsRouter.post('/', checkRoles(ROLES.USER), validateBody(createContactSchema), ctrlWrapper(createContactsController),);
-contactsRouter.put('/:contactId', checkRoles(ROLES.USER), isValidId, validateBody(createContactSchema), ctrlWrapper(upsertContactController),);
-contactsRouter.patch('/:contactId', checkRoles(ROLES.USER), isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController),);
+router.use(authenticate);
+router.get('/', ctrlWrapper(getContactsController));
+router.get('/:contactId',  isValidId, ctrlWrapper(getContactByIdController));
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
+router.post('/', jsonParser,  validateBody(createContactSchema), ctrlWrapper(createContactsController),);
+router.put('/:contactId', jsonParser,  isValidId, validateBody(createContactSchema), ctrlWrapper(upsertContactController),);
+router.patch('/:contactId', jsonParser, isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController),);
 
-export default contactsRouter;
+export default router;
