@@ -28,7 +28,6 @@ requestBody:
     description: "Contact's email"
     type: string
     example: "dmytro3@example.com"
-    # enum: ['male', 'female', 'other']
   isFavourite:
     description: "Contact's Favourite or no"
     type: boolean
